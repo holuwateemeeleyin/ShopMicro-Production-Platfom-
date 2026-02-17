@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: shopmicro
+      POSTGRES_USER: user_admin
+      POSTGRES_PASSWORD: password123 # Use a Secret in K8s later!
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user_admin -d shopmicro"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+
+  backend:
+    build: ./backend
+    environment:
+      DB_HOST: postgres
+      DB_USER: user_admin
+      DB_PASSWORD: password123
+      DB_NAME: shopmicro
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  ml-service:
+    build: ./ml-service
+    ports:
+      - "5000:5000"
+      
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:5173"
+    environment:
+      - VITE_API_BASE=http://localhost:8080
+      - VITE_ML_BASE=http://localhost:5000
+    depends_on:
+      - backend
