@@ -5,4 +5,4 @@ metadata:
   namespace: shopmicro
 data:
   VITE_API_BASE: "http://backend:8080"
-  VITE_ML_BASE: "http://ml-service:5001"
+  VITE_ML_BASE: "http://ml-service:5000"

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: shopmicro
+spec:
+  replicas: 2 # High Availability: ensures the site stays up if one pod fails
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: <your-docker-username>/shopmicro-frontend:latest # Placeholder for Requirement C
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: shopmicro-config # Pulls VITE_API_BASE and VITE_ML_BASE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: shopmicro
+spec:
+  type: LoadBalancer # Exposes the service externally (AWS ELB for EKS)
+  ports:
+    - port: 80         # Users visit http://<LoadBalancer-IP> (default port 80)
+      targetPort: 3000 # Forwards to the React app on port 3000
+  selector:
+    app: frontend # Directs traffic to the frontend pods
