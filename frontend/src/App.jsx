@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8080";
-const ML_BASE = import.meta.env.VITE_ML_BASE || "http://localhost:5000";
+const ML_BASE = import.meta.env.VITE_ML_BASE || "http://localhost:5001";
 
 export default function App() {
   const [products, setProducts] = useState([]);
