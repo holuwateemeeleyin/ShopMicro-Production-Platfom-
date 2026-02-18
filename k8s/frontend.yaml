@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: <your-docker-username>/shopmicro-frontend:latest # Placeholder for Requirement C
+        image: timiajiboye/shopmicro-frontend:latest # Placeholder for Requirement C
         ports:
         - containerPort: 3000
         envFrom:
