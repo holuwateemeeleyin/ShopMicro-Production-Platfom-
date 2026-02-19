@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: ml-service
-        image: your-registry/shopmicro-ml:latest
+        image: timiajiboye/shopmicro-ml:latest
         ports:
         - containerPort: 5000
 ---
