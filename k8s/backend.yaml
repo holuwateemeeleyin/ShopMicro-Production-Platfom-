@@ -23,7 +23,8 @@ metadata:
   name: backend
   namespace: shopmicro
 spec:
+  type: LoadBalancer # <--- THIS IS CRITICAL for public access
   selector: { app: backend }
   ports:
-  - port: 8080
-    targetPort: 8080
+  - port: 80           # What the browser uses (Standard HTTP)
+    targetPort: 8080    # What your Go/Python/Node app listens on
