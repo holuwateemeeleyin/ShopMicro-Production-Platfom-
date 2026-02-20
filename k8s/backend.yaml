@@ -14,8 +14,18 @@ spec:
       containers:
       - name: backend
         image: timiajiboye/shopmicro-backend:latest
-        ports:
-        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: "postgres"
+        - name: DB_USER
+          value: "user_admin"  # Must match postgres.yaml
+        - name: DB_NAME
+          value: "shopmicro"   # Must match postgres.yaml
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: shopmicro-secrets
+              key: postgres-password
 ---
 apiVersion: v1
 kind: Service
