@@ -14,8 +14,22 @@ spec:
       containers:
       - name: ml-service
         image: timiajiboye/shopmicro-ml:latest
+        # --- ADDED FOR HEALTH MONITORING ---
+        resources:
+          requests:
+            memory: "128Mi"  # ML usually needs a higher baseline
+            cpu: "200m"
+          limits:
+            memory: "256Mi"  # Allow room for data processing
+            cpu: "500m"
+        # --- ADDED FOR HEALTH MONITORING ---
         ports:
         - containerPort: 5000
+        readinessProbe:
+          tcpSocket:
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 15
 ---
 apiVersion: v1
 kind: Service

@@ -16,8 +16,24 @@ spec:
       containers:
       - name: frontend
         image: timiajiboye/shopmicro-frontend:latest # Placeholder for Requirement C
+        # --- ADDED FOR MONITORING (Requirement D) ---
+        resources:
+          requests:
+            memory: "128Mi"  # React apps can be memory-intensive, especially with multiple users
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        # --- ADDED FOR HEALTH MONITORING ---
         ports:
         - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /      # React apps usually serve at root
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        # --------------------------------------------
         envFrom:
         - configMapRef:
             name: shopmicro-config # Pulls VITE_API_BASE and VITE_ML_BASE
