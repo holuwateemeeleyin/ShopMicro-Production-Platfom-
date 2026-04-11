@@ -1,6 +1,6 @@
-# ShopMicro: Production-Grade Microservices Platform
+# ShopMicro: Production-Grade Microservices Platform( A Tech4Dev Developers foundary Project)
 
-A robust, containerized microservices architecture deployed on Kubernetes, featuring automated monitoring, resource management, and high availability.
+A Tech4Dev project on robust, containerized microservices architecture deployed on Kubernetes, featuring automated monitoring, resource management, and high availability.
 
 ## 🏗️ Architecture
 This platform consists of five core services designed for scalability and resilience:
